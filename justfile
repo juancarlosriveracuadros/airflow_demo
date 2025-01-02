@@ -1,10 +1,14 @@
 set ignore-comments
 set positional-arguments
 
+init-airflow:
+    astro dev init
+    just start-airflow
+    just connections
 
 start-airflow:
-    -astro dev init
     astro dev start
+    just connections
 
 stop-airflow:
     astro dev stop
