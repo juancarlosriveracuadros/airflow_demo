@@ -169,3 +169,13 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+
+# Minio related
+include/data/minio/**
+include/data/minio/*
+!include/data/minio/.minio.sys/buckets/
+!include/data/minio/.minio.sys/config/**
+!include/data/minio/.minio.sys/pool.bin/**
+!include/data/minio/.minio.sys/format.json
+!include/data/minio/.minio.sys/tmp/
