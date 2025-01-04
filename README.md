@@ -52,8 +52,8 @@ Located in `dags/astro_mls.py`, this ML pipeline:
 
 ## Issues
 - For spark cluster issues execute:
-    - just spark-cluster
-    - just restart-airflow
+    - update-spark
+
 
 ## Service Access
 

@@ -65,6 +65,11 @@ postgres:
 # Spark Components
 # --------------
 
+# update Spark application and restart airflow
+update-spark:
+    just build-spark
+    just restart-airflow
+
 # Build Spark Images
 build-spark:
     just build-spark-master

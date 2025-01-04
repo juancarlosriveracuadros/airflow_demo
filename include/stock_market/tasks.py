@@ -4,8 +4,10 @@ import requests
 import json
 from minio import Minio
 from io import BytesIO
+from datetime import datetime
 
 BUCKET_NAME = 'stock-market'
+now = datetime.now()
 
 def _get_minio_client():
     minio = BaseHook.get_connection('minio')
@@ -27,19 +29,34 @@ def _store_prices(stock):
     client = _get_minio_client()
     if not client.bucket_exists(BUCKET_NAME):
         client.make_bucket(BUCKET_NAME)
+    folder_path = f"input_prices/{now.strftime('%Y')}/{now.strftime('%m')}/{now.strftime('%d')}/{now.strftime('%H_%M')}"
+    #file_name = f"{now.strftime('%Y_%m_%d_%H_%M')}_prices.json"
+    file_name = f"prices.json"
+    folder_path_latest = "input_prices/latest"
     stock = json.loads(stock)
     symbol = stock['meta']['symbol']
     data = json.dumps(stock, ensure_ascii=False).encode('utf8')
+    
     objw = client.put_object(
         bucket_name=BUCKET_NAME,
-        object_name=f'{symbol}/prices.json',
+        object_name=f'{symbol}/{folder_path}/{file_name}',
         data=BytesIO(data),
         length=len(data))
-    return f'{objw.bucket_name}/{symbol}'
+    
+    objects = client.list_objects(BUCKET_NAME, prefix=f'{symbol}/{folder_path_latest}/')
+    for obj in objects:
+        client.remove_object(BUCKET_NAME, obj.object_name)
+
+    objw = client.put_object(
+        bucket_name=BUCKET_NAME,
+        object_name=f'{symbol}/{folder_path_latest}/{file_name}',
+        data=BytesIO(data),
+        length=len(data))
+    return f'{objw.bucket_name}/{symbol}/{folder_path}'
 
 def _get_formatted_csv(path):
     _client = _get_minio_client()
-    prefix_name = f"{path.split('/')[1]}/formatted_prices/"
+    prefix_name = f"{path.split('/')[1]}/formatted_prices/latest/"
     objects = _client.list_objects(BUCKET_NAME, prefix=prefix_name, recursive=True)
     for obj in objects:
         if obj.object_name.endswith('.csv'):

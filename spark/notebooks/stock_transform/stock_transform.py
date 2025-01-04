@@ -47,12 +47,23 @@ if __name__ == '__main__':
         df_zipped = df_zipped.select(explode("zipped")).select("col.timestamp", "col.close", "col.high", "col.low", "col.open", "col.volume")
         df_zipped = df_zipped.withColumn('date', from_unixtime('timestamp').cast(DateType()))
 
+        # output Path
+        input_path = os.getenv("SPARK_APPLICATION_ARGS")
+        output_path = input_path.replace("input_prices", "formatted_prices")
+        output_path_latest = input_path.split("/input_prices")[0] + "/formatted_prices/latest"
         # Store in Minio
         df_zipped.write \
             .mode("overwrite") \
             .option("header", "true") \
             .option("delimiter", ",") \
-            .csv(f"s3a://{os.getenv('SPARK_APPLICATION_ARGS')}/formatted_prices")
+            .csv(f"s3a://{output_path}")
+        
+        # store in latest
+        df_zipped.write \
+            .mode("overwrite") \
+            .option("header", "true") \
+            .option("delimiter", ",") \
+            .csv(f"s3a://{output_path_latest}")
 
     app()
     os.system('kill %d' % os.getpid())
