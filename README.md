@@ -6,36 +6,36 @@ This project is a demo with two Data Pipelines as DAGs in Apache Airflow. The in
 Project Pipelines
 ================
 
-# stock_market
+## stock_market
 In the file dags/stock_market.py you will find a DAG that is a ETL pipeline that download the API for Apple Inc.'s Stock Market Data (see documentation) into a minio bucket as json file. the Data will be transform in a csv file with a spark job. After the transformation the data will be save in the minio bucket and load into a postgres database table stock_market.
 
-# astro mls 
+## astro mls 
 A demo of a machine learning pipeline is represented in the file dags/astro_mls.py. the DAG download and prepare (Feature engineering) the data for the calculation of the model. The raw data as well as the prepared data will be save in the minio bucket. The model will be trained with the prepared data and the result will be save in the minio bucket. With the model a prediction will be made and the result will be save in the minio bucket and in the database table astro_ml.
 
 Management the tool
 =======================
 
-# installation
+## installation
 for us this tool is necessary to have docker and the Astro-CLI installed on your machine. For install the Astro-CLI pleace see the documentation at the end of this README file. To manage the tool and fast installing ist recomended to install the justfile (see documentation as well). With the command "just init-airflow" you can install the services of the project. If there are some dificulties with the spark cluster pleace run the commands "just build-spark" and "just restart-airflow".
 
-# justfile
+## justfile
 for the management of the project you can use the justfile. The justfile is a file that contains a list of commands that can be executed with the just command.
 to list the commands you can use the command "just" without any arguments or "just default".
 
-# Access Services
+## Access Services
 access the following services over the browser:
 
-## the airflow UI
+### the airflow UI
 - name: admin
 - password: admin
 - host-port: http://localhost:8080/
 
-## the file system minio UI
+### the file system minio UI
 - name: minio 
 - password: minio123
 - host-port: http://localhost:9000/
 
-## access the database with the following credentials:
+### access the database with the following credentials:
 - host: localhost
 - port: 5432
 - user: postgres
