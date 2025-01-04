@@ -1,51 +1,68 @@
-Overview
-========
+# Data Pipeline Demo with Apache Airflow
 
-This project is a demo with two Data Pipelines as DAGs in Apache Airflow. The infrastructure of the project is base on Astronomer free version for localy deployment as base infrastructur and a docker-compose over ride file as well as a .env file for complementation purpose. In the justfile are some commands to rund and manage the project. For installation and implementation of justfile and astronomer "Astro-CLI" you will find the links at the end fo the README file in the documentation section.
+## Overview
 
-Project Pipelines
-================
+This project demonstrates two Data Pipelines implemented as DAGs (Directed Acyclic Graphs) in Apache Airflow. The infrastructure leverages Astronomer's free version for local deployment, utilizing Docker Compose and environment configurations for extended functionality. Project management is streamlined through a comprehensive justfile containing essential commands for deployment and maintenance.
 
-## stock_market
-In the file dags/stock_market.py you will find a DAG that is a ETL pipeline that download the API for Apple Inc.'s Stock Market Data (see documentation) into a minio bucket as json file. the Data will be transform in a csv file with a spark job. After the transformation the data will be save in the minio bucket and load into a postgres database table stock_market.
+## Data Pipelines
 
-## astro mls 
-A demo of a machine learning pipeline is represented in the file dags/astro_mls.py. the DAG download and prepare (Feature engineering) the data for the calculation of the model. The raw data as well as the prepared data will be save in the minio bucket. The model will be trained with the prepared data and the result will be save in the minio bucket. With the model a prediction will be made and the result will be save in the minio bucket and in the database table astro_ml.
+### Stock Market Pipeline
+Located in `dags/stock_market.py`, this ETL pipeline:
+- Fetches Apple Inc.'s Stock Market Data via API
+- Stores raw data in MinIO as JSON
+- Transforms data using Spark jobs into CSV format
+- Loads processed data into PostgreSQL table `stock_market` and MinIO bucket.
 
-Management the tool
-=======================
+### Machine Learning Pipeline
+Located in `dags/astro_mls.py`, this ML pipeline:
+- Downloads and performs feature engineering on raw data
+- Stores both raw and prepared datasets in MinIO
+- Trains ML models using prepared data
+- Generates predictions and stores results in:
+  - MinIO bucket
+  - PostgreSQL table `astro_ml`
 
-## installation
-for us this tool is necessary to have docker and the Astro-CLI installed on your machine. For install the Astro-CLI pleace see the documentation at the end of this README file. To manage the tool and fast installing ist recomended to install the justfile (see documentation as well). With the command "just init-airflow" you can install the services of the project. If there are some dificulties with the spark cluster pleace run the commands "just build-spark" and "just restart-airflow".
 
-## justfile
-for the management of the project you can use the justfile. The justfile is a file that contains a list of commands that can be executed with the just command.
-to list the commands you can use the command "just" without any arguments or "just default".
+## Setup and Installation
 
-## Access Services
-access the following services over the browser:
+### Prerequisites
+- Docker
+- Astro CLI
+- Just command runner
 
-### the airflow UI
+### Quick Start
+1. Install Astro CLI (see documentation links)
+2. Install Just command runner
+3. Initialize services with the command "just init-airflow"
+
+### issues 
+- For spark cluster issues execute:
+    - just spark-cluster
+    - just restart-airflow
+
+## Service Access
+
+### Airflow Web Interface
 - name: admin
 - password: admin
-- host-port: http://localhost:8080/
+- URL: http://localhost:8080/
 
-### the file system minio UI
+### MinIO Object Storage
 - name: minio 
 - password: minio123
-- host-port: http://localhost:9000/
+- URL: http://localhost:9000/
 
-### access the database with the following credentials:
+### PostgreSQL Database
 - host: localhost
 - port: 5432
 - user: postgres
 - password: postgres
 - database: postgres
-with the command "just postgres" you can access the database over the terminal.
+access via terminal "just postgres" 
 
 Documentation
 ===============
-- Install astronmer "Astro-CLI": https://www.astronomer.io/docs/astro/cli/install-cli/
-- justfile repository: https://github.com/casey/just
-- API for Apple Inc.'s Stock Market Data: https://query1.finance.yahoo.com/v8/finance/chart/aapl?metrics=?&interval=1d&range=1y
-- Orchentrator machine leaning: https://www.astronomer.io/docs/learn/use-case-airflow-ml-datasets/
+- [Astro CLI Installation Guide](https://www.astronomer.io/docs/astro/cli/install-cli/)
+- [Just Command Runner](https://github.com/casey/just)
+- [Yahoo Finance API Documentation](https://query1.finance.yahoo.com/v8/finance/chart/aapl?metrics=?&interval=1d&range=1y)
+- [Airflow ML Orchestration Guide](https://www.astronomer.io/docs/learn/use-case-airflow-ml-datasets/)
