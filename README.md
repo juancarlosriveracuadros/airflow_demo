@@ -1,5 +1,20 @@
 # Data Pipeline Demo with Apache Airflow
 
+## Table of Contents
+- [Overview](#overview)
+- [Data Pipelines](#data-pipelines)
+  - [Stock Market Pipeline](#stock-market-pipeline)
+  - [Machine Learning Pipeline](#machine-learning-pipeline)
+- [Setup and Installation](#setup-and-installation)
+  - [Prerequisites](#prerequisites)
+  - [Quick Start](#quick-start)
+- [Service Access](#service-access)
+  - [Airflow Web Interface](#airflow-web-interface)
+  - [MinIO Object Storage](#minio-object-storage)
+  - [PostgreSQL Database](#postgresql-database)
+- [Known Issues](#issues)
+- [Documentation](#documentation)
+
 ## Overview
 
 This project demonstrates two Data Pipelines implemented as DAGs (Directed Acyclic Graphs) in Apache Airflow. The infrastructure leverages Astronomer's free version for local deployment, utilizing Docker Compose and environment configurations for extended functionality. Project management is streamlined through a comprehensive justfile containing essential commands for deployment and maintenance.
@@ -60,9 +75,8 @@ Located in `dags/astro_mls.py`, this ML pipeline:
 - database: postgres
 access via terminal "just postgres" 
 
-Documentation
-===============
+# Documentation
 - [Astro CLI Installation Guide](https://www.astronomer.io/docs/astro/cli/install-cli/)
 - [Just Command Runner](https://github.com/casey/just)
-- [Yahoo Finance API Documentation](https://query1.finance.yahoo.com/v8/finance/chart/aapl?metrics=?&interval=1d&range=1y)
+- [Yahoo Finance API](https://query1.finance.yahoo.com/v8/finance/chart/aapl?metrics=?&interval=1d&range=1y)
 - [Airflow ML Orchestration Guide](https://www.astronomer.io/docs/learn/use-case-airflow-ml-datasets/)
