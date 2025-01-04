@@ -8,12 +8,11 @@
 - [Setup and Installation](#setup-and-installation)
   - [Prerequisites](#prerequisites)
   - [Quick Start](#quick-start)
-  - [Isues](#issues)
 - [Service Access](#service-access)
   - [Airflow Web Interface](#airflow-web-interface)
   - [MinIO Object Storage](#minio-object-storage)
   - [PostgreSQL Database](#postgresql-database)
-- [Known Issues](#issues)
+- [Known Issues](#Issues)
 - [Documentation](#documentation)
 
 ## Overview
@@ -51,7 +50,7 @@ Located in `dags/astro_mls.py`, this ML pipeline:
 2. Install Just command runner
 3. Initialize services with the command "just init-airflow"
 
-### Issues 
+### Issues
 - For spark cluster issues execute:
     - just spark-cluster
     - just restart-airflow
