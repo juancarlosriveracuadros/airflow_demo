@@ -4,7 +4,6 @@ set positional-arguments
 init-airflow:
     astro dev init
     just start-airflow
-    just connections
 
 start-airflow:
     astro dev start
@@ -31,8 +30,8 @@ connections:
 
 
 postgres:
-    docker exec -it $(astro dev ps | grep postgres | head -n 1 | awk '{print $1}') psql -U postgres
-    #psql -h localhost -p 5432 -U postgres
+    #docker exec -it $(astro dev ps | grep postgres | head -n 1 | awk '{print $1}') psql -U postgres
+    psql -h localhost -p 5432 -U postgres
 
 
 

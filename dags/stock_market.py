@@ -70,7 +70,6 @@ def stock_market():
         task_id='load_to_dw',
         input_file=File(
             path=f"s3://{BUCKET_NAME}/{{{{task_instance.xcom_pull(task_ids='get_formatted_csv')}}}}",
-            #path=F"s3://{BUCKET_NAME}/{{{{task_instance.xcom_pull(task_ids='store_prices')}}}}",
             conn_id='minio_http'),
         output_table=Table(
             name='stock_market',

@@ -49,3 +49,6 @@ The Astronomer CLI is maintained with love by the Astronomer team. To report a b
 
 
 https://query1.finance.yahoo.com/v8/finance/chart/aapl?metrics=?&interval=1d&range=1y
+
+
+https://www.astronomer.io/docs/learn/use-case-airflow-ml-datasets/

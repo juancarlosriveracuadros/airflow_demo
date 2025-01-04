@@ -6,6 +6,7 @@ from minio import Minio
 from io import BytesIO
 
 BUCKET_NAME = 'stock-market'
+
 def _get_minio_client():
     minio = BaseHook.get_connection('minio')
     client = Minio(
