@@ -65,6 +65,12 @@ postgres:
 # Spark Components
 # --------------
 
+# Build Spark Images
+build-spark:
+    just build-spark-master
+    just build-spark-worker
+    just build-spark-app
+
 # Build Spark application image
 build-spark-app:
     docker build ./spark/notebooks/stock_transform -t airflow/stock-app

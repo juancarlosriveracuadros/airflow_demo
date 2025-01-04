@@ -3,63 +3,45 @@ Overview
 
 This project is a demo with two Data Pipelines as DAGs in Apache Airflow. The infrastructure of the project is base on Astronomer free version for localy deployment as base infrastructur and a docker-compose over ride file as well as a .env file for complementation purpose. In the justfile are some commands to rund and manage the project. For installation and implementation of justfile and astronomer "Astro-CLI" you will find the links at the end fo the README file in the documentation section.
 
-Project Contents
+Project Pipelines
 ================
 
-Your Astro project contains the following files and folders:
+# stock_market
+In the file dags/stock_market.py you will find a DAG that is a ETL pipeline that download the API for Apple Inc.'s Stock Market Data (see documentation) into a minio bucket as json file. the Data will be transform in a csv file with a spark job. After the transformation the data will be save in the minio bucket and load into a postgres database table stock_market.
 
-- dags: This folder contains the Python files for your Airflow DAGs. By default, this directory includes one example DAG:
-    - `example_astronauts`: This DAG shows a simple ETL pipeline example that queries the list of astronauts currently in space from the Open Notify API and prints a statement for each astronaut. The DAG uses the TaskFlow API to define tasks in Python, and dynamic task mapping to dynamically print a statement for each astronaut. For more on how this DAG works, see our [Getting started tutorial](https://www.astronomer.io/docs/learn/get-started-with-airflow).
-- Dockerfile: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. If you want to execute other commands or overrides at runtime, specify them here.
-- include: This folder contains any additional files that you want to include as part of your project. It is empty by default.
-- packages.txt: Install OS-level packages needed for your project by adding them to this file. It is empty by default.
-- requirements.txt: Install Python packages needed for your project by adding them to this file. It is empty by default.
-- plugins: Add custom or community plugins for your project to this file. It is empty by default.
-- airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
-
-Deploy Your Project Locally
-===========================
-
-1. Start Airflow on your local machine by running 'astro dev start'.
-
-This command will spin up 4 Docker containers on your machine, each for a different Airflow component:
-
-- Postgres: Airflow's Metadata Database
-- Webserver: The Airflow component responsible for rendering the Airflow UI
-- Scheduler: The Airflow component responsible for monitoring and triggering tasks
-- Triggerer: The Airflow component responsible for triggering deferred tasks
-
-2. Verify that all 4 Docker containers were created by running 'docker ps'.
-
-Note: Running 'astro dev start' will start your project with the Airflow Webserver exposed at port 8080 and Postgres exposed at port 5432. If you already have either of those ports allocated, you can either [stop your existing Docker containers or change the port](https://www.astronomer.io/docs/astro/cli/troubleshoot-locally#ports-are-not-available-for-my-local-airflow-webserver).
-
-3. Access the Airflow UI for your local Airflow project. To do so, go to http://localhost:8080/ and log in with 'admin' for both your Username and Password.
-
-You should also be able to access your Postgres Database at 'localhost:5432/postgres'.
+# astro mls 
+A demo of a machine learning pipeline is represented in the file dags/astro_mls.py. the DAG download and prepare (Feature engineering) the data for the calculation of the model. The raw data as well as the prepared data will be save in the minio bucket. The model will be trained with the prepared data and the result will be save in the minio bucket. With the model a prediction will be made and the result will be save in the minio bucket and in the database table astro_ml.
 
 Management the tool
 =======================
+
+# installation
+for us this tool is necessary to have docker and the Astro-CLI installed on your machine. For install the Astro-CLI pleace see the documentation at the end of this README file. To manage the tool and fast installing ist recomended to install the justfile (see documentation as well). With the command "just init-airflow" you can install the services of the project. If there are some dificulties with the spark cluster pleace run the commands "just build-spark" and "just restart-airflow".
+
+# justfile
+for the management of the project you can use the justfile. The justfile is a file that contains a list of commands that can be executed with the just command.
+to list the commands you can use the command "just" without any arguments or "just default".
+
+# Access Services
 access the following services over the browser:
 
-the airflow UI
-- name: admin, 
-- password: admin 
+## the airflow UI
+- name: admin
+- password: admin
 - host-port: http://localhost:8080/
 
-the file system minio UI 
+## the file system minio UI
 - name: minio 
 - password: minio123
 - host-port: http://localhost:9000/
 
-access the database with the following credentials: 
+## access the database with the following credentials:
 - host: localhost
 - port: 5432
 - user: postgres
 - password: postgres
 - database: postgres
 with the command "just postgres" you can access the database over the terminal.
-
-
 
 Documentation
 ===============
