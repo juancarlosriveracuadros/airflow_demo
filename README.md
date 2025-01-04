@@ -8,6 +8,7 @@
 - [Setup and Installation](#setup-and-installation)
   - [Prerequisites](#prerequisites)
   - [Quick Start](#quick-start)
+  - [Isues](#issues)
 - [Service Access](#service-access)
   - [Airflow Web Interface](#airflow-web-interface)
   - [MinIO Object Storage](#minio-object-storage)
@@ -73,7 +74,7 @@ Located in `dags/astro_mls.py`, this ML pipeline:
 - user: postgres
 - password: postgres
 - database: postgres
-access via terminal "just postgres" 
+access via terminal "just postgres"
 
 # Documentation
 - [Astro CLI Installation Guide](https://www.astronomer.io/docs/astro/cli/install-cli/)
