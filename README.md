@@ -1,6 +1,7 @@
 Overview
 ========
-This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
+
+This project is a demo with two Data Pipelines as DAGs in Apache Airflow. The infrastructure of the project is base on Astronomer free version for localy deployment as base infrastructur and a docker-compose over ride file as well as a .env file for complementation purpose. In the justfile are some commands to rund and manage the project. For installation and implementation of justfile and astronomer "Astro-CLI" you will find the links at the end fo the README file in the documentation section.
 
 Project Contents
 ================
@@ -36,18 +37,33 @@ Note: Running 'astro dev start' will start your project with the Airflow Webserv
 
 You should also be able to access your Postgres Database at 'localhost:5432/postgres'.
 
-Deploy Your Project to Astronomer
-=================================
+Management the tool
+=======================
+access the following services over the browser:
 
-If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://www.astronomer.io/docs/astro/deploy-code/
+the airflow UI
+- name: admin, 
+- password: admin 
+- host-port: http://localhost:8080/
 
-Contact
-=======
+the file system minio UI 
+- name: minio 
+- password: minio123
+- host-port: http://localhost:9000/
 
-The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
+access the database with the following credentials: 
+- host: localhost
+- port: 5432
+- user: postgres
+- password: postgres
+- database: postgres
+with the command "just postgres" you can access the database over the terminal.
 
 
-https://query1.finance.yahoo.com/v8/finance/chart/aapl?metrics=?&interval=1d&range=1y
 
-
-https://www.astronomer.io/docs/learn/use-case-airflow-ml-datasets/
+Documentation
+===============
+- Install astronmer "Astro-CLI": https://www.astronomer.io/docs/astro/cli/install-cli/
+- justfile repository: https://github.com/casey/just
+- API for Apple Inc.'s Stock Market Data: https://query1.finance.yahoo.com/v8/finance/chart/aapl?metrics=?&interval=1d&range=1y
+- Orchentrator machine leaning: https://www.astronomer.io/docs/learn/use-case-airflow-ml-datasets/

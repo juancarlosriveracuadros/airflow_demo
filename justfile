@@ -2,10 +2,17 @@ set ignore-comments
 set positional-arguments
 
 
+# Default command
+# --------------
+
+# Default recipe shows available commands
+default:
+    @just --list
+
 # Airflow Core Commands
 # -------------------
 
-# Initialize new Airflow project and start services
+# Initialize new Airflow project and start services and connections
 init-airflow:
     astro dev init
     just start-airflow
@@ -72,9 +79,3 @@ build-spark-worker:
     docker build ./spark/worker -t airflow/spark-worker
 
 
-# Default command
-# --------------
-
-# Default recipe shows available commands
-default:
-    @just --list
