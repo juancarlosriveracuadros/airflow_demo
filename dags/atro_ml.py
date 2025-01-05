@@ -5,8 +5,12 @@ from astro import sql as aql
 from astro.files import File
 from astro.dataframes.pandas import DataFrame
 from astro.sql.table import Table, Metadata
+from datetime import datetime
+
 
 from include.astro_ml.tasks import _extract_housing_data, _build_features, _train_model, _predict_housing,MODEL_BUCKET, DATA_BUCKET 
+
+now = datetime.now()
 
 @dag(
     schedule='@daily', 
@@ -16,7 +20,7 @@ from include.astro_ml.tasks import _extract_housing_data, _build_features, _trai
 )
 
 def astro_ml():
-    model_id = datetime.utcnow().strftime("%y_%d_%m_%H_%M_%S_%f")
+    model_id = f"{now.strftime('%Y')}/{now.strftime('%m')}/{now.strftime('%d')}/{now.strftime('%H_%M')}"
     model_dir = os.path.join(MODEL_BUCKET, model_id)
 
 
@@ -26,7 +30,16 @@ def astro_ml():
         task_id='save_data',
         input_data=extract_df,
         output_file=File(
-            path=f's3://{DATA_BUCKET}/housing.csv',
+            path=f"s3://{DATA_BUCKET}/input/{now.strftime('%Y')}/{now.strftime('%m')}/{now.strftime('%d')}/{now.strftime('%H_%M')}/housing.csv",
+            conn_id='minio_http'
+                         ),
+        if_exists='replace')
+    
+    loaded_data_last = aql.export_file(
+        task_id='save_data_last',
+        input_data=extract_df,
+        output_file=File(
+            path=f's3://{DATA_BUCKET}/input/latest/housing.csv',
             conn_id='minio_http'
                          ),
         if_exists='replace')
@@ -41,7 +54,16 @@ def astro_ml():
         task_id="save_predictions",
         input_data=pred_df,
         output_file=File(
-            path=f's3://{DATA_BUCKET}/housing_pred.csv',
+            path=f"s3://{DATA_BUCKET}/pred/input/{now.strftime('%Y')}/{now.strftime('%m')}/{now.strftime('%d')}/{now.strftime('%H_%M')}/housing_pred.csv",
+            conn_id='minio_http'
+            ),
+        if_exists="replace")
+    
+    pred_file = aql.export_file(
+        task_id="save_predictions_last",
+        input_data=pred_df,
+        output_file=File(
+            path=f's3://{DATA_BUCKET}/pred/input/latest/housing_pred.csv',
             conn_id='minio_http'
             ),
         if_exists="replace")
@@ -49,7 +71,7 @@ def astro_ml():
     load_to_dw = aql.load_file(
         task_id='load_to_dw',
         input_file=File(
-            path=f's3://{DATA_BUCKET}/housing_pred.csv',
+            path=f's3://{DATA_BUCKET}/pred/input/latest/housing_pred.csv',
             conn_id='minio_http'),
         output_table=Table(
             name='astro_ml',

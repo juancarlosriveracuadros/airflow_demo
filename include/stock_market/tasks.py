@@ -30,8 +30,7 @@ def _store_prices(stock):
     if not client.bucket_exists(BUCKET_NAME):
         client.make_bucket(BUCKET_NAME)
     folder_path = f"input_prices/{now.strftime('%Y')}/{now.strftime('%m')}/{now.strftime('%d')}/{now.strftime('%H_%M')}"
-    #file_name = f"{now.strftime('%Y_%m_%d_%H_%M')}_prices.json"
-    file_name = f"prices.json"
+    file_name = "prices.json"
     folder_path_latest = "input_prices/latest"
     stock = json.loads(stock)
     symbol = stock['meta']['symbol']

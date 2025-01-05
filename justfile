@@ -65,7 +65,7 @@ postgres:
 # Spark Components
 # --------------
 
-# update Spark application and restart airflow
+# Update Spark application and restart airflow
 update-spark:
     just build-spark
     just restart-airflow
