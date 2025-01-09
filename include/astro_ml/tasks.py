@@ -11,9 +11,6 @@ from minio import Minio
 from airflow.hooks.base import BaseHook
 from io import BytesIO
 
-#NAME_BUCKET = 'astro-ml'
-#DATA_BUCKET = 'astro-ml/data'
-#MODEL_BUCKET = 'astro-ml/model'
 
 NAME_BUCKET = 'astro-ml'
 DATA_BUCKET = 'astro-ml/housing/data'
